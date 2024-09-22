@@ -26,7 +26,6 @@
       "name": "Load grid store",
       "level": 0,
       "working_days_only": true,
-      "after": ["Fetch config and initialise storage", "Configure grid store", "Populate dates"],
       "span": ["Insert weekdays", "Manage non-working days", "Finalise styling"]
     },
     {
@@ -34,7 +33,7 @@
       "level": 1,
       "duration": 3,
       "working_days_only": true,
-      "after": ["Fetch config and initialise storage", "Configure grid store", "Populate dates"]
+      "after": ["Populate dates"]
     },
     {
       "name": "Manage non-working days",
@@ -54,7 +53,6 @@
       "name": "Render grid",
       "level": 0,
       "working_days_only": true,
-      "after": ["Load grid store", "Insert weekdays", "Manage non-working days", "Finalise styling"],
       "span": ["Do the math", "Present results"]
     },
     {
@@ -62,7 +60,7 @@
       "level": 1,
       "duration": 3,
       "working_days_only": true,
-      "align": "Render grid"
+      "after": ["Finalise styling"]
     },
     {
       "name": "Present results",
@@ -70,6 +68,46 @@
       "duration": 3,
       "working_days_only": true,
       "after": ["Do the math"]
+    },
+    {
+      "name": "Consolidated test",
+      "level": 0,
+      "working_days_only": true,
+      "span": ["Scrub", "Acceptance test"]
+    },
+    {
+      "name": "Scrub",
+      "level": 1,
+      "duration": 4,
+      "working_days_only": true,
+      "after": ["Present results"]
+    },
+    {
+      "name": "Acceptance test",
+      "level": 1,
+      "duration": 4,
+      "working_days_only": true,
+      "after": ["Scrub"]
+    },
+    {
+      "name": "Deployment",
+      "level": 0,
+      "working_days_only": true,
+      "span": ["Prepare documentation", "Prepare documentation"]
+    },
+    {
+      "name": "Prepare documentation",
+      "level": 1,
+      "duration": 5,
+      "working_days_only": true,
+      "after": ["Acceptance test"]
+    },
+    {
+      "name": "Deploy to production",
+      "level": 1,
+      "duration": 1,
+      "working_days_only": true,
+      "after": ["Prepare documentation"]
     },
     {
       "name": "Fixed date working",
