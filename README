@@ -1,0 +1,7 @@
+Draw Gantt charts in a web page.
+
+- Create task definitions in JSON.
+- Tasks can commence at:
+  - a fixed start date.
+  - aligned with the start date of another task.
+  - dependent on the completion date of a list of other tasks.
