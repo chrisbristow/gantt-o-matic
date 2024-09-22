@@ -45,6 +45,9 @@ function compose_tasks(elem, json)
   }
 
   draw_tasks(elem, json);
+
+//    console.log(JSON.stringify(json, null, 2));
+//    console.log(count);
 }
 
 function draw_tasks(elem, json)
@@ -104,37 +107,40 @@ function day_cols(json)
     }
 
     // Obtain a list of working days for each task and add to the JSON:
-    let task_days = [];
-
-    for(let j = 0; j < json.tasks[i].duration; j ++)
+    if(json.tasks[i].duration !== undefined)
     {
-      task_days.push(to_date_string(t_date));
+      let task_days = [];
 
-      t_date = new Date(t_date.getTime() + 86400000);
-
-      // Set the next available date after this task completes:
-      json.tasks[i].fin = to_date_string(t_date);
-
-      // Nudge forward from Saturday if this task is working days only:
-      if(json.tasks[i].working_days_only && t_date.getDay() === 6)
+      for(let j = 0; j < json.tasks[i].duration; j ++)
       {
+        task_days.push(to_date_string(t_date));
+
         t_date = new Date(t_date.getTime() + 86400000);
+
+        // Set the next available date after this task completes:
+        json.tasks[i].fin = to_date_string(t_date);
+
+        // Nudge forward from Saturday if this task is working days only:
+        if(json.tasks[i].working_days_only && t_date.getDay() === 6)
+        {
+          t_date = new Date(t_date.getTime() + 86400000);
+        }
+
+        // Nudge forward from Sunday if this task is working days only:
+        if(json.tasks[i].working_days_only && t_date.getDay() === 0)
+        {
+          t_date = new Date(t_date.getTime() + 86400000);
+        }
       }
 
-      // Nudge forward from Sunday if this task is working days only:
-      if(json.tasks[i].working_days_only && t_date.getDay() === 0)
+      // Obtain the final date for all tasks:
+      if(t_date > final_date)
       {
-        t_date = new Date(t_date.getTime() + 86400000);
+        final_date = t_date;
       }
-    }
 
-    // Obtain the final date for all tasks:
-    if(t_date > final_date)
-    {
-      final_date = t_date;
+      json.tasks[i].task_days = task_days;
     }
-
-    json.tasks[i].task_days = task_days;
   }
 
   // If there are more dates to process:
@@ -238,6 +244,41 @@ function update_dependencies(json)
   let fins = {};
   let alterations = false;
 
+  // Update task_days, start and fin for a "span' task:
+  for(let i = 0; i < json.tasks.length; i ++)
+  {
+    if(json.tasks[i].span !== undefined && json.tasks[i].duration === undefined)
+    {
+      let ntd_u = {};
+
+      for(let j = 0; j < json.tasks[i].span.length; j ++)
+      {
+        for(let k = 0; k < json.tasks.length; k ++)
+        {
+          if(json.tasks[k].name === json.tasks[i].span[j])
+          {
+            for(let l = 0; l < json.tasks[k].task_days.length; l ++)
+            {
+              ntd_u[json.tasks[k].task_days[l]] = "x";
+            }
+          }
+        }
+      }
+
+      let new_task_days = Object.keys(ntd_u);
+
+      new_task_days.sort();
+
+      if(JSON.stringify(new_task_days) !== JSON.stringify(json.tasks[i].task_days))
+      {
+        json.tasks[i].task_days = new_task_days;
+        json.tasks[i].start = new_task_days.at(0);
+        json.tasks[i].fin = new_task_days.at(-1);
+        alterations = true;
+      }
+    }
+  }
+
   // Create lookup tables of other task start/end dates:
   for(let i = 0; i < json.tasks.length; i ++)
   {
@@ -290,5 +331,8 @@ function convert_dates(json)
     {
       json.tasks[i].start = to_date_string(new Date());
     }
+
+    // Initialise task_days:
+    json.tasks[i].task_days = [];
   }
 }
