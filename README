@@ -6,3 +6,13 @@ Draw Gantt charts in a web page.
   - aligned with the start date of another task.
   - dependent on the completion date of a list of other tasks.
   - spanning a set of other tasks.
+
+Ganttish (todo):
+
+2024-09-17
+- 5:First task starts a a given date
+- 2:Second task aligned with first task
+
+- 4:Third task after first task and second task
+
+- 3:Fourth task after third task
