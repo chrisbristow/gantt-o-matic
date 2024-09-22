@@ -221,11 +221,11 @@ function add_more_date_cols(json, current_date)
     // Add an "allocated" or "free" indicator block to the grid:
     if(add_block)
     {
-      t_col.push({ text: "&nbsp;", class: "gom_text gom_text_" + json.tasks[i].level + " gom_allocated" })
+      t_col.push({ text: "&nbsp;", class: "gom_text gom_text_" + json.tasks[i].level + " gom_allocated_" + json.tasks[i].level })
     }
     else
     {
-      t_col.push({ text: "&nbsp;", class: "gom_text gom_text_" + json.tasks[i].level + " gom_free" })
+      t_col.push({ text: "&nbsp;", class: "gom_text gom_text_" + json.tasks[i].level + " gom_free" + sfx })
     }
   }
 

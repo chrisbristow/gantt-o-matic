@@ -25,6 +25,7 @@
   background-color: #91BFF4;
   font-weight: bold;
   font-size: 0.7em;
+  color: #555555;
 }
 
 .gom_dates_now
@@ -49,7 +50,12 @@
   white-space: nowrap;
 }
 
-.gom_allocated
+.gom_allocated_0
+{
+  background-color: #103FB5;
+}
+
+.gom_allocated_1
 {
   background-color: #107FF5;
 }
@@ -57,6 +63,16 @@
 .gom_free
 {
   background-color: #85BDF5;
+}
+
+.gom_free_now
+{
+  background-color: #859DF5;
+}
+
+.gom_free_weekend
+{
+  background-color: #95CDF5;
 }
 
 .gom_scroller
