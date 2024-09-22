@@ -1,0 +1,81 @@
+{
+  "tasks":
+  [
+    {
+      "name": "Fetch config and initialise storage",
+      "level": 0,
+      "start": "20240917",
+      "duration": 10,
+      "working_days_only": true
+    },
+    {
+      "name": "Configure grid store",
+      "level": 1,
+      "duration": 4,
+      "working_days_only": true,
+      "align": "Fetch config and initialise storage"
+    },
+    {
+      "name": "Populate dates",
+      "level": 1,
+      "start": "20240919",
+      "duration": 12,
+      "working_days_only": false,
+      "after": ["Configure grid store"]
+    },
+    {
+      "name": "Load grid store",
+      "level": 0,
+      "start": "20240919",
+      "duration": 14,
+      "working_days_only": true,
+      "after": ["Fetch config and initialise storage", "Configure grid store", "Populate dates"]
+    },
+    {
+      "name": "Insert weekdays",
+      "level": 1,
+      "start": "20240919",
+      "duration": 3,
+      "working_days_only": true,
+      "after": ["Fetch config and initialise storage", "Configure grid store", "Populate dates"]
+    },
+    {
+      "name": "Manage non-working days",
+      "level": 1,
+      "start": "20240919",
+      "duration": 3,
+      "working_days_only": true,
+      "after": ["Insert weekdays"]
+    },
+    {
+      "name": "Finalise styling",
+      "level": 1,
+      "start": "20240919",
+      "duration": 11,
+      "working_days_only": true,
+      "after": ["Manage non-working days"]
+    },
+    {
+      "name": "Render grid",
+      "level": 0,
+      "start": "20240919",
+      "duration": 27,
+      "working_days_only": true,
+      "after": ["Load grid store", "Insert weekdays", "Manage non-working days", "Finalise styling"]
+    },
+    {
+      "name": "Do the math",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "align": "Render grid"
+    },
+    {
+      "name": "Present results",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": ["Do the math"]
+    }
+  ]
+}
