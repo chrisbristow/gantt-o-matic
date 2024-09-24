@@ -9,6 +9,7 @@ Draw Gantt charts in a web page.
 
 Ganttish (todo):
 
+[Spanning task
 2024-09-17
 - 5:First task starts a a given date
 - 2:Second task aligned with first task
@@ -16,3 +17,5 @@ Ganttish (todo):
 - 4:Third task after first task and second task
 
 - 3:Fourth task after third task
+]
+
