@@ -84,7 +84,7 @@
 .gom_sticky
 {
   position: sticky !important;
-  left: 0px;
+  left: 0px !important;
   z-index: 2;
 }
 

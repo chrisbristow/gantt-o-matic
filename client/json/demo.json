@@ -115,6 +115,12 @@
       "start": "20240923",
       "duration": 6,
       "working_days_only": true
+    },
+    {
+      "name": "No start date",
+      "level": 0,
+      "duration": 6,
+      "working_days_only": true
     }
   ]
 }
