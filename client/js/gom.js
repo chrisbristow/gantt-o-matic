@@ -44,6 +44,11 @@ function compose_tasks(elem, json)
     count ++;
   }
 
+  if(json.weekly_summary)
+  {
+    prepare_weekly_grid(json);
+  }
+
   draw_tasks(elem, json);
 
 //    console.log(JSON.stringify(json, null, 2));
@@ -335,4 +340,36 @@ function convert_dates(json)
     // Initialise task_days:
     json.tasks[i].task_days = [];
   }
+}
+
+function prepare_weekly_grid(json)
+{
+  json.weekly_grid = [JSON.parse(JSON.stringify(json.grid[0]))];
+
+  let grid_col = JSON.parse(JSON.stringify(json.grid[1]));
+
+  for(let i = 2; i < json.grid.length; i ++)
+  {
+    // Push at end of current week:
+    if(json.grid[i][0].text.startsWith("Monday"))
+    {
+      json.weekly_grid.push(grid_col);
+      grid_col = JSON.parse(JSON.stringify(json.grid[i]));
+    }
+
+    for(let j = 1; j < json.grid[i].length; j ++)
+    {
+      if(json.grid[i][j].class.indexOf("gom_allocated") > -1)
+      {
+        grid_col[j] = { "text": "&nbsp;", "class": json.grid[i][j].class };
+      }
+    }
+  }
+
+  // Push final week:
+  json.weekly_grid.push(grid_col);
+
+    //console.log(JSON.stringify(json.weekly_grid, null, 2));
+
+  json.grid = json.weekly_grid;
 }

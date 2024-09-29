@@ -6,6 +6,7 @@ Draw Gantt charts in a web page.
   - aligned with the start date of another task.
   - dependent on the completion date of a list of other tasks.
   - spanning a set of other tasks.
+- Time is allocated in days, but a weekly summary can also be plotted.
 
 Ganttish (todo):
 
@@ -19,3 +20,25 @@ Ganttish (todo):
 - 3:Fourth task after third task
 ]
 
+If within a spanning task:
+- The spanning task sits at level 0
+- Tasks within the spanning task sit at level 1
+
+If not:
+- All tasks sit at level 0
+
+Suggested Planning Workflow
+===========================
+
+1) Planning an end date:
+- Don't specify a start date
+- Add all tasks (sequential or aligned)
+- Current end date is shown
+
+2) When a start date has been agreed:
+- Add the start date
+- Start dates in the past are usually meaningless unless work has already started
+
+3) If phases are needed, add spanning tasks:
+- All sequential tasks will move to level 1
+- Spanning tasks (phases) will appear at level 0
