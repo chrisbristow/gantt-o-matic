@@ -1,3 +1,16 @@
+if(typeof window === 'undefined')
+{
+  const fs = require('fs');
+
+  if(process.argv.length != 4)
+  {
+    console.log("Usage: gom.js <project_definition_file> <weekly:true/false>");
+    process.exit(1);
+  }
+
+  generate_json(fs, process.argv[2], process.argv[3]);
+}
+
 async function draw_gantt_chart(elem, json_file)
 {
   document.getElementById(elem).innerHTML = "Loading ...";
@@ -372,4 +385,114 @@ function prepare_weekly_grid(json)
     //console.log(JSON.stringify(json.weekly_grid, null, 2));
 
   json.grid = json.weekly_grid;
+}
+
+function generate_json(fs, project_definition_file, is_weekly_str)
+{
+  let is_weekly = false;
+
+  if(is_weekly_str === "true")
+  {
+    is_weekly = true;
+  }
+
+  let output_json =
+  {
+    "weekly_summary": is_weekly,
+    "tasks": []
+  };
+
+  const file_contents = fs.readFileSync(project_definition_file).toString().split("\n");
+  let dep_tasks = [];
+  let prev_dep_tasks = [];
+  let start_date = "";
+  let span_name = "";
+  let span_tasks = [];
+  let level = 0;
+  let span_cache = [];
+
+  for(let i = 0; i < file_contents.length; i ++)
+  {
+    if(file_contents[i].match(/^\s*\-\s*\d\s*:\s*/))
+    {
+      const res = /^\s*\-\s*(\d)\s*:\s*(.+)$/.exec(file_contents[i]);
+      const duration = parseInt(res[1]);
+      const task_name = res[2].trim();
+
+      dep_tasks.push(task_name);
+
+      let new_task =
+      {
+        "name": task_name,
+        "level": level,
+        "duration": duration,
+        "working_days_only": true
+      };
+
+      if(prev_dep_tasks.length > 0)
+      {
+        new_task.after = prev_dep_tasks;
+      }
+
+      if(start_date.length > 0)
+      {
+        new_task.start = start_date;
+      }
+
+      if(span_name.length === 0)
+      {
+        output_json.tasks.push(new_task);
+      }
+      else
+      {
+        span_cache.push(new_task);
+        span_tasks.push(task_name);
+      }
+    }
+    else if(file_contents[i].match(/^\s*$/))
+    {
+      prev_dep_tasks = dep_tasks;
+      dep_tasks = [];
+      start_date = "";
+    }
+    else if(file_contents[i].match(/^\s*\d\d\d\d\-\d\d\-\d\d\s*$/))
+    {
+      const res = /^\s*(\d\d\d\d)\-(\d\d)\-(\d\d)\s*$/.exec(file_contents[i]);
+      const year = res[1];
+      const month = res[2];
+      const day = res[3];
+
+      start_date = year + month + day;
+    }
+    else if(file_contents[i].match(/^\s*\[\s*.+$/))
+    {
+      const res = /^\s*\[\s*(.+)$/.exec(file_contents[i]);
+      span_name = res[1].trim();
+      level = 1;
+    }
+    else if(file_contents[i].match(/^\s*\]\s*$/))
+    {
+      output_json.tasks.push(
+        {
+          "name": span_name,
+          "level": 0,
+          "working_days_only": true,
+          "span": span_tasks
+        }
+      );
+
+      span_name = "";
+      span_tasks = [];
+      level = 0;
+
+      for(let j = 0; j < span_cache.length; j ++)
+      {
+        output_json.tasks.push(span_cache[j]);
+      }
+
+      span_cache = [];
+    }
+  }
+
+  console.log(JSON.stringify(output_json, null, 2));
 }

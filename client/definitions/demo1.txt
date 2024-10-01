@@ -1,0 +1,22 @@
+[Spanning task
+2024-09-25
+- 5:First task starts on a given date
+- 2:Second task aligned with first task
+
+- 4:Third task after first task and second task
+
+- 3:Fourth task after third task
+]
+
+- 1:Intermediate 1
+
+- 1:Intermediate 2
+
+[S2
+- 3:One
+
+- 3:Two
+
+- 3:Three
+- 3:T2
+]

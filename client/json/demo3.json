@@ -1,0 +1,114 @@
+{
+  "weekly_summary": false,
+  "tasks": [
+    {
+      "name": "Spanning task",
+      "level": 0,
+      "working_days_only": true,
+      "span": [
+        "First task starts on a given date",
+        "Second task aligned with first task",
+        "Third task after first task and second task",
+        "Fourth task after third task"
+      ]
+    },
+    {
+      "name": "First task starts on a given date",
+      "level": 1,
+      "duration": 5,
+      "working_days_only": true,
+      "start": "20240925"
+    },
+    {
+      "name": "Second task aligned with first task",
+      "level": 1,
+      "duration": 2,
+      "working_days_only": true,
+      "start": "20240925"
+    },
+    {
+      "name": "Third task after first task and second task",
+      "level": 1,
+      "duration": 4,
+      "working_days_only": true,
+      "after": [
+        "First task starts on a given date",
+        "Second task aligned with first task"
+      ]
+    },
+    {
+      "name": "Fourth task after third task",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": [
+        "Third task after first task and second task"
+      ]
+    },
+    {
+      "name": "Intermediate 1",
+      "level": 0,
+      "duration": 1,
+      "working_days_only": true,
+      "after": [
+        "Fourth task after third task"
+      ]
+    },
+    {
+      "name": "Intermediate 2",
+      "level": 0,
+      "duration": 1,
+      "working_days_only": true,
+      "after": [
+        "Intermediate 1"
+      ]
+    },
+    {
+      "name": "S2",
+      "level": 0,
+      "working_days_only": true,
+      "span": [
+        "One",
+        "Two",
+        "Three",
+        "T2"
+      ]
+    },
+    {
+      "name": "One",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": [
+        "Intermediate 2"
+      ]
+    },
+    {
+      "name": "Two",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": [
+        "One"
+      ]
+    },
+    {
+      "name": "Three",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": [
+        "Two"
+      ]
+    },
+    {
+      "name": "T2",
+      "level": 1,
+      "duration": 3,
+      "working_days_only": true,
+      "after": [
+        "Two"
+      ]
+    }
+  ]
+}

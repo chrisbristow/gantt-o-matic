@@ -1,0 +1,87 @@
+{
+  "weekly_summary": false,
+  "tasks":
+  [
+    {
+      "name": "Onboarding 1",
+      "level": 0,
+      "duration": 5,
+      "working_days_only": true
+    },
+    {
+      "name": "Onboarding 2",
+      "level": 0,
+      "duration": 5,
+      "working_days_only": true
+    },
+    {
+      "name": "Onboarding 3",
+      "level": 0,
+      "duration": 5,
+      "working_days_only": true
+    },
+    {
+      "name": "Fix feed 1",
+      "level": 0,
+      "duration": 4,
+      "working_days_only": true,
+      "after": ["Onboarding 1", "Onboarding 3","Onboarding 3"]
+    },
+    {
+      "name": "Realign boxes",
+      "level": 0,
+      "duration": 2,
+      "working_days_only": true,
+      "after": ["Onboarding 1", "Onboarding 3","Onboarding 3"]
+    },
+    {
+      "name": "Data generator",
+      "level": 0,
+      "duration": 7,
+      "working_days_only": true,
+      "after": ["Fix feed 1", "Realign boxes"]
+    },
+    {
+      "name": "Test preparation",
+      "level": 0,
+      "duration": 9,
+      "working_days_only": true,
+      "after": ["Fix feed 1", "Realign boxes"]
+    },
+    {
+      "name": "Soak test",
+      "level": 0,
+      "duration": 2,
+      "working_days_only": true,
+      "after": ["Data generator", "Test preparation"]
+    },
+    {
+      "name": "All cycles",
+      "level": 0,
+      "duration": 8,
+      "working_days_only": true,
+      "after": ["Soak test"]
+    },
+    {
+      "name": "OAT",
+      "level": 0,
+      "duration": 3,
+      "working_days_only": true,
+      "after": ["All cycles"]
+    },
+    {
+      "name": "Schedule deployment",
+      "level": 0,
+      "duration": 5,
+      "working_days_only": true,
+      "after": ["All cycles"]
+    },
+    {
+      "name": "Deploy",
+      "level": 0,
+      "duration": 1,
+      "working_days_only": true,
+      "after": ["OAT", "Schedule deployment"]
+    }
+  ]
+}
