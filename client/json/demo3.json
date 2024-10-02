@@ -71,7 +71,8 @@
         "One",
         "Two",
         "Three",
-        "T2"
+        "T2",
+        "Task spans non-working days"
       ]
     },
     {
@@ -104,10 +105,20 @@
     {
       "name": "T2",
       "level": 1,
-      "duration": 3,
+      "duration": 10,
       "working_days_only": true,
       "after": [
         "Two"
+      ]
+    },
+    {
+      "name": "Task spans non-working days",
+      "level": 1,
+      "duration": 12,
+      "working_days_only": false,
+      "after": [
+        "Three",
+        "T2"
       ]
     }
   ]

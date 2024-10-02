@@ -1,3 +1,25 @@
+const public_holidays = 
+{
+  "20241225": ".",
+  "20241226": ".",
+  "20250101": ".",
+  "20250418": ".",
+  "20250421": ".",
+  "20250505": ".",
+  "20250526": ".",
+  "20250825": ".",
+  "20251225": ".",
+  "20251226": ".",
+  "20260101": ".",
+  "20260403": ".",
+  "20260406": ".",
+  "20260504": ".",
+  "20260525": ".",
+  "20260831": ".",
+  "20261225": ".",
+  "20261228": "."
+};
+
 if(typeof window === 'undefined')
 {
   const fs = require('fs');
@@ -108,15 +130,7 @@ function day_cols(json)
     let t_date = new Date(from_date_string(json.tasks[i].start));
 
     // If the task is working days only, shift the start to the next working day:
-    if(json.tasks[i].working_days_only && t_date.getDay() === 6)
-    {
-      t_date = new Date(t_date.getTime() + 86400000);
-    }
-
-    if(json.tasks[i].working_days_only && t_date.getDay() === 0)
-    {
-      t_date = new Date(t_date.getTime() + 86400000);
-    }
+    t_date = get_next_working_day(t_date, json.tasks[i].working_days_only);
 
     // Obtain the earliest start date for all tasks:
     if(t_date < current_date)
@@ -139,16 +153,7 @@ function day_cols(json)
         json.tasks[i].fin = to_date_string(t_date);
 
         // Nudge forward from Saturday if this task is working days only:
-        if(json.tasks[i].working_days_only && t_date.getDay() === 6)
-        {
-          t_date = new Date(t_date.getTime() + 86400000);
-        }
-
-        // Nudge forward from Sunday if this task is working days only:
-        if(json.tasks[i].working_days_only && t_date.getDay() === 0)
-        {
-          t_date = new Date(t_date.getTime() + 86400000);
-        }
+        t_date = get_next_working_day(t_date, json.tasks[i].working_days_only);
       }
 
       // Obtain the final date for all tasks:
@@ -170,6 +175,7 @@ function day_cols(json)
   }
 }
 
+// Create a date string: <day_name> <day> <month> <year>
 function format_date(d)
 {
   const day = d.getDate().toString().padStart(2, "0");
@@ -180,6 +186,7 @@ function format_date(d)
   return(dow + "<br/><nobr>" + day + "-" + month + "-" + year + "</nobr>");
 }
 
+// Create a date string: <year> <month> <day>
 function to_date_string(d)
 {
   const day = d.getDate().toString().padStart(2, "0");
@@ -189,6 +196,7 @@ function to_date_string(d)
   return(year + month + day);
 }
 
+// Create a Date() from a string: <yyyy>-<mm>-<dd>
 function from_date_string(s)
 {
   let ds = s.slice(0, 4) + "-" + s.slice(4, 6) + "-" + s.slice(6, 8);
@@ -196,6 +204,7 @@ function from_date_string(s)
   return(ds);
 }
 
+// Detect days of the week:
 function get_dow(d)
 {
   const dows = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -203,11 +212,47 @@ function get_dow(d)
   return(dows[d]);
 }
 
+// Check if a date is a public holiday:
+function is_public_holiday(d)
+{
+  let iph = false;
+
+  if(public_holidays[to_date_string(d)] === ".")
+  {
+    iph = true;
+  }
+
+  return(iph);
+}
+
+// Nudge a date forward if a day, or sequence of days are non-working days:
+function get_next_working_day(t_date, wdo)
+{
+  if(wdo)
+  {
+    let not_working_day = true;
+
+    while(not_working_day)
+    {
+      if(t_date.getDay() === 6 || t_date.getDay() === 0 || is_public_holiday(t_date))
+      {
+        t_date = new Date(t_date.getTime() + 86400000);
+      }
+      else
+      {
+        not_working_day = false;
+      }
+    }
+  }
+
+  return(t_date);
+}
+
 function add_more_date_cols(json, current_date)
 {
   let sfx = "";
 
-  if(current_date.getDay() === 0 || current_date.getDay() === 6)
+  if(current_date.getDay() === 0 || current_date.getDay() === 6 || is_public_holiday(current_date))
   {
     sfx = "_weekend";
   }
@@ -413,9 +458,9 @@ function generate_json(fs, project_definition_file, is_weekly_str)
 
   for(let i = 0; i < file_contents.length; i ++)
   {
-    if(file_contents[i].match(/^\s*\-\s*\d\s*:\s*/))
+    if(file_contents[i].match(/^\s*\-\s*\d+\s*:\s*/))
     {
-      const res = /^\s*\-\s*(\d)\s*:\s*(.+)$/.exec(file_contents[i]);
+      const res = /^\s*\-\s*(\d+)\s*:\s*(.+)$/.exec(file_contents[i]);
       const duration = parseInt(res[1]);
       const task_name = res[2].trim();
 
@@ -427,6 +472,42 @@ function generate_json(fs, project_definition_file, is_weekly_str)
         "level": level,
         "duration": duration,
         "working_days_only": true
+      };
+
+      if(prev_dep_tasks.length > 0)
+      {
+        new_task.after = prev_dep_tasks;
+      }
+
+      if(start_date.length > 0)
+      {
+        new_task.start = start_date;
+      }
+
+      if(span_name.length === 0)
+      {
+        output_json.tasks.push(new_task);
+      }
+      else
+      {
+        span_cache.push(new_task);
+        span_tasks.push(task_name);
+      }
+    }
+    else if(file_contents[i].match(/^\s*\-\s*\d+\s*=\s*/))
+    {
+      const res = /^\s*\-\s*(\d+)\s*=\s*(.+)$/.exec(file_contents[i]);
+      const duration = parseInt(res[1]);
+      const task_name = res[2].trim();
+
+      dep_tasks.push(task_name);
+
+      let new_task =
+      {
+        "name": task_name,
+        "level": level,
+        "duration": duration,
+        "working_days_only": false
       };
 
       if(prev_dep_tasks.length > 0)
