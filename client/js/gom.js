@@ -474,14 +474,13 @@ function generate_json(fs, project_definition_file, is_weekly_str)
         "working_days_only": true
       };
 
-      if(prev_dep_tasks.length > 0)
-      {
-        new_task.after = prev_dep_tasks;
-      }
-
       if(start_date.length > 0)
       {
         new_task.start = start_date;
+      }
+      else if(prev_dep_tasks.length > 0)
+      {
+        new_task.after = prev_dep_tasks;
       }
 
       if(span_name.length === 0)
@@ -544,6 +543,8 @@ function generate_json(fs, project_definition_file, is_weekly_str)
       const day = res[3];
 
       start_date = year + month + day;
+      dep_tasks = [];
+      prev_dep_tasks = dep_tasks;
     }
     else if(file_contents[i].match(/^\s*\[\s*.+$/))
     {

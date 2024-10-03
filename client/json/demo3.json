@@ -120,6 +120,68 @@
         "Three",
         "T2"
       ]
+    },
+    {
+      "name": "Secondary plan - phase 1",
+      "level": 0,
+      "working_days_only": true,
+      "span": [
+        "Kick off",
+        "Lead presentation"
+      ]
+    },
+    {
+      "name": "Kick off",
+      "level": 1,
+      "duration": 5,
+      "working_days_only": true,
+      "start": "20240925"
+    },
+    {
+      "name": "Lead presentation",
+      "level": 1,
+      "duration": 2,
+      "working_days_only": true,
+      "after": [
+        "Kick off"
+      ]
+    },
+    {
+      "name": "Secondary plan - phase 2",
+      "level": 0,
+      "working_days_only": true,
+      "span": [
+        "Solution design",
+        "Solution build",
+        "Functional test"
+      ]
+    },
+    {
+      "name": "Solution design",
+      "level": 1,
+      "duration": 7,
+      "working_days_only": true,
+      "after": [
+        "Lead presentation"
+      ]
+    },
+    {
+      "name": "Solution build",
+      "level": 1,
+      "duration": 12,
+      "working_days_only": true,
+      "after": [
+        "Solution design"
+      ]
+    },
+    {
+      "name": "Functional test",
+      "level": 1,
+      "duration": 8,
+      "working_days_only": true,
+      "after": [
+        "Solution build"
+      ]
     }
   ]
 }

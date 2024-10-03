@@ -1,3 +1,5 @@
+// Plan 1
+
 [Spanning task
 2024-09-25
 - 5:First task starts on a given date
@@ -21,4 +23,21 @@
 - 10:T2
 
 - 12=Task spans non-working days
+]
+
+// Plan 2
+
+[Secondary plan - phase 1
+2024-09-25
+- 5:Kick off
+
+- 2:Lead presentation
+]
+
+[Secondary plan - phase 2
+- 7:Solution design
+
+- 12:Solution build
+
+- 8:Functional test
 ]
