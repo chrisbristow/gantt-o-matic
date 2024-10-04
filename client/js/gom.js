@@ -30,7 +30,10 @@ if(typeof window === 'undefined')
     process.exit(1);
   }
 
-  generate_json(fs, process.argv[2], process.argv[3]);
+  const file_contents = fs.readFileSync(process.argv[2]).toString().split("\n");
+  const o_json = generate_json(file_contents, process.argv[3]);
+
+  console.log(JSON.stringify(o_json, null, 2));
 }
 
 async function draw_gantt_chart(elem, json_file)
@@ -432,7 +435,7 @@ function prepare_weekly_grid(json)
   json.grid = json.weekly_grid;
 }
 
-function generate_json(fs, project_definition_file, is_weekly_str)
+function generate_json(file_contents, is_weekly_str)
 {
   let is_weekly = false;
 
@@ -447,7 +450,6 @@ function generate_json(fs, project_definition_file, is_weekly_str)
     "tasks": []
   };
 
-  const file_contents = fs.readFileSync(project_definition_file).toString().split("\n");
   let dep_tasks = [];
   let prev_dep_tasks = [];
   let start_date = "";
@@ -576,5 +578,15 @@ function generate_json(fs, project_definition_file, is_weekly_str)
     }
   }
 
-  console.log(JSON.stringify(output_json, null, 2));
+  return(output_json);
+}
+
+function render(ta, elem)
+{
+  const defn = document.getElementById(ta).value;
+  const o_json = generate_json(defn.split("\n"), "false");
+
+  compose_tasks(elem, o_json);
+
+  //console.log(JSON.stringify(o_json, null, 2));
 }
