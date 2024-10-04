@@ -40,8 +40,8 @@ async function draw_gantt_chart(elem, json_file)
 {
   document.getElementById(elem).innerHTML = "Loading ...";
 
-//  try
-//  {
+  try
+  {
     const response = await fetch(json_file);
 
     if(!response.ok)
@@ -54,11 +54,11 @@ async function draw_gantt_chart(elem, json_file)
 
       compose_tasks(elem, json);
     }
-//  }
-//  catch(error)
-//  {
-//    document.getElementById(elem).innerHTML = "Error: " + error.message;
-//  }
+  }
+  catch(error)
+  {
+    document.getElementById(elem).innerHTML = "Ready";
+  }
 }
 
 function compose_tasks(elem, json)
@@ -587,6 +587,4 @@ function render(ta, elem)
   const o_json = generate_json(defn.split("\n"), "false");
 
   compose_tasks(elem, o_json);
-
-  //console.log(JSON.stringify(o_json, null, 2));
 }
