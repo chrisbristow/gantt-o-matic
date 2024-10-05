@@ -1,58 +1,61 @@
-// Plan 1
+// Plan 1:
+// Two spanned phases connected by a couple of intermediate tasks
 
 [Spanning task
-2024-09-25
-- 5:First task starts on a given date
-- 2:Second task aligned with first task
-
-- 4:Third task after first task and second task
-
-- 3:Fourth task after third task
+  2024-09-25
+  - 5:First task starts on a given date
+  - 2:Second task aligned with first task
+    |
+  - 4:Third task after first task and second task
+    |
+  - 3:Fourth task after third task
 ]
-
+  |
 - 1:Intermediate 1
-
+  |
 - 1:Intermediate 2
-
+  |
 [S2
-- 3:One
-
-- 3:Two
-
-- 3:Three
-- 10:T2
-
-- 12=Task spans non-working days
+  - 3:One
+    |
+  - 3:Two
+    |
+  - 3:Three
+  - 10:T2
+    |
+  - 12=Task spans non-working days
 ]
 
-// Plan 2
+// Plan 2:
+// Two phases - runs in parallel with Plan 1
 
 [Secondary plan - phase 1
-2024-09-25
-- 5:Kick off
-
-- 2:Lead presentation
+  2024-09-25
+  - 5:Kick off
+    |
+  - 2:Lead presentation
 ]
-
+|
 [Secondary plan - phase 2
-- 7:Solution design
-
-- 12:Solution build
-
-- 8:Functional test
+  - 7:Solution design
+    |
+  - 12:Solution build
+    |
+  - 8:Functional test
 ]
 
-
+// Two parallel independent streams of work which join for a final consolidated test task
 
 2024-09-25
 - 2:Searchable alerts design agreement
-
+  |
 - 5: Searchable alerts build
 
 2024-09-25
 - 2:Area alert design agreement
-
+  |
 - 13:Area alert build
 
+A:Area alert build
 A:Searchable alerts build
 - 4: Consolidated test

@@ -11,13 +11,13 @@ Draw Gantt charts in a web page.
 Ganttish (todo):
 
 [Spanning task
-2024-09-17
-- 5:First task starts a a given date
-- 2:Second task aligned with first task
-
-- 4:Third task after first task and second task
-
-- 3:Fourth task after third task
+  2024-09-17
+  - 5:First task starts a a given date
+  - 2:Second task aligned with first task
+    |
+  - 4:Third task after first task and second task
+    |
+  - 3:Fourth task after third task
 ]
 
 If within a spanning task:
@@ -42,3 +42,7 @@ Suggested Planning Workflow
 3) If phases are needed, add spanning tasks:
 - All sequential tasks will move to level 1
 - Spanning tasks (phases) will appear at level 0
+
+4) If parallel plans need to converge:
+- Use a "plan x complete" task as the last task of each plan
+- Use the "A:<name>" directive to list the "plan x complete" tasks as dependencies

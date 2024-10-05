@@ -533,6 +533,12 @@ function generate_json(file_contents, is_weekly_str)
     }
     else if(file_contents[i].match(/^\s*$/))
     {
+      prev_dep_tasks = [];
+      dep_tasks = [];
+      start_date = "";
+    }
+    else if(file_contents[i].match(/^\s*\|\s*$/))
+    {
       prev_dep_tasks = dep_tasks;
       dep_tasks = [];
       start_date = "";
