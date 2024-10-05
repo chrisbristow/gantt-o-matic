@@ -576,15 +576,22 @@ function generate_json(file_contents, is_weekly_str)
 
       span_cache = [];
     }
+    else if(file_contents[i].match(/^\s*A\s*:\s*/))
+    {
+      const res = /^\s*A\s*:\s*(.+)$/.exec(file_contents[i]);
+      const task_name = res[1].trim();
+
+      prev_dep_tasks.push(task_name);
+    }
   }
 
   return(output_json);
 }
 
-function render(ta, elem)
+function render(ta, elem, is_weekly)
 {
   const defn = document.getElementById(ta).value;
-  const o_json = generate_json(defn.split("\n"), "false");
+  const o_json = generate_json(defn.split("\n"), is_weekly);
 
   compose_tasks(elem, o_json);
 }

@@ -41,3 +41,18 @@
 
 - 8:Functional test
 ]
+
+
+
+2024-09-25
+- 2:Searchable alerts design agreement
+
+- 5: Searchable alerts build
+
+2024-09-25
+- 2:Area alert design agreement
+
+- 13:Area alert build
+
+A:Searchable alerts build
+- 4: Consolidated test

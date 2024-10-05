@@ -1,6 +1,7 @@
 .gom_grid
 {
   display: grid;
+  justify-content: start;
 }
 
 .gom_text
