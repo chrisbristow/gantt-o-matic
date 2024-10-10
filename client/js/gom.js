@@ -101,7 +101,7 @@ function draw_tasks(elem, json)
   {
     for(let j = 0; j < json.grid[i].length; j ++)
     {
-      g_html += `<div class="${json.grid[i][j].class}" style="grid-column: ${i+1}; grid-row: ${j+1};">${json.grid[i][j].text}</div>`;
+      g_html += `<div class="${json.grid[i][j].class}" style="grid-column: ${i+1}; grid-row: ${j+1};" title="${json.grid[i][j].text.replaceAll("&nbsp;", "")}">${json.grid[i][j].text}</div>`;
     }
   }
 
