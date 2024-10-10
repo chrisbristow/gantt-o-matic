@@ -2,6 +2,7 @@
 {
   display: grid;
   justify-content: start;
+  width: 10000%;
 }
 
 .gom_text
@@ -74,12 +75,6 @@
 .gom_free_weekend
 {
   background-color: #95CDF5;
-}
-
-.gom_scroller
-{
-  overflow: scroll;
-  width: 100%;
 }
 
 .gom_sticky

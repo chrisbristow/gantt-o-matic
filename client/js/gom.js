@@ -95,7 +95,7 @@ function compose_tasks(elem, json)
 
 function draw_tasks(elem, json)
 {
-  let g_html = `<div class="gom_scroller"><div class="gom_grid">`;
+  let g_html = `<div class="gom_grid">`;
 
   for(let i = 0; i < json.grid.length; i ++)
   {
@@ -105,7 +105,7 @@ function draw_tasks(elem, json)
     }
   }
 
-  g_html += `</div></div>`;
+  g_html += `</div>`;
 
   document.getElementById(elem).innerHTML = g_html;
 }
