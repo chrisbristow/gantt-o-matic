@@ -20,6 +20,9 @@
   background-color: #3893F5;
   font-weight: bold;
   font-size: 0.7em;
+  position: sticky !important;
+  top: 0px !important;
+  z-index: 1;
 }
 
 .gom_dates_weekend
@@ -28,6 +31,9 @@
   font-weight: bold;
   font-size: 0.7em;
   color: #555555;
+  position: sticky !important;
+  top: 0px !important;
+  z-index: 1;
 }
 
 .gom_dates_now
@@ -35,6 +41,9 @@
   background-color: #0000FF;
   font-weight: bold;
   font-size: 0.7em;
+  position: sticky !important;
+  top: 0px !important;
+  z-index: 1;
 }
 
 .gom_text_0
@@ -79,8 +88,8 @@
 
 .gom_sticky
 {
-  position: sticky !important;
-  left: 0px !important;
+  position: sticky;
+  left: 0px;
   z-index: 2;
   width: 250px;
   text-overflow: ellipsis;
@@ -91,4 +100,8 @@
 .gom_blank
 {
   background-color: white;
+  z-index: 3;
+  position: sticky;
+  left: 0pxt;
+  top: 0px;
 }
