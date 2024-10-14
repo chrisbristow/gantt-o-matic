@@ -1,6 +1,6 @@
 Draw Gantt charts in a web page.
 
-- Create task definitions in JSON.
+- Create task definitions in JSON or "Ganttish".
 - Tasks can commence at:
   - a fixed start date.
   - aligned with the start date of another task.

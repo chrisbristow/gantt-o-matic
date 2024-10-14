@@ -1,3 +1,4 @@
+// Lookup hash of public holidays (currently UK):
 const public_holidays = 
 {
   "20241225": ".",
@@ -20,6 +21,7 @@ const public_holidays =
   "20261228": "."
 };
 
+// If gom.js is run from the command line under Node, it can translate Ganttish into JSON:
 if(typeof window === 'undefined')
 {
   const fs = require('fs');
@@ -36,6 +38,7 @@ if(typeof window === 'undefined')
   console.log(JSON.stringify(o_json, null, 2));
 }
 
+// Called from HTML to render a static Gantt chart given a JSON definition:
 async function draw_gantt_chart(elem, json_file)
 {
   document.getElementById(elem).innerHTML = "Loading ...";
@@ -61,6 +64,7 @@ async function draw_gantt_chart(elem, json_file)
   }
 }
 
+// Create the grid, compute dependencies and then draw the Gantt chart:
 function compose_tasks(elem, json)
 {
   convert_dates(json);
@@ -73,6 +77,9 @@ function compose_tasks(elem, json)
   let to_do = true;
   let count = 0;
 
+  // Give up on computing dependencies if iterations > 1000.  This
+  // normally means a circular dependency has been stated in the
+  // JSON definition file (less likely if using Ganttish):
   while(to_do && count < 1000)
   {
     to_do = update_dependencies(json);
@@ -93,6 +100,7 @@ function compose_tasks(elem, json)
 //    console.log(count);
 }
 
+// Convert the grid data into HTML and render to 'elem':
 function draw_tasks(elem, json)
 {
   let g_html = `<div class="gom_grid">`;
@@ -110,6 +118,7 @@ function draw_tasks(elem, json)
   document.getElementById(elem).innerHTML = g_html;
 }
 
+// Create the first grid column (contains the task names):
 function title_col(json)
 {
   let t_col = [{ text: "&nbsp;", class: "gom_text gom_blank gom_sticky" }];
@@ -123,6 +132,7 @@ function title_col(json)
   json.grid.push(t_col);
 }
 
+// Create the columns containing task blocks:
 function day_cols(json)
 {
   let current_date = new Date();
@@ -207,7 +217,7 @@ function from_date_string(s)
   return(ds);
 }
 
-// Detect days of the week:
+// Return a day of the week name:
 function get_dow(d)
 {
   const dows = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -228,7 +238,8 @@ function is_public_holiday(d)
   return(iph);
 }
 
-// Nudge a date forward if a day, or sequence of days are non-working days:
+// Nudge a date forward if a day, or sequence of days are non-working days
+// unless working days only (wdo) is false:
 function get_next_working_day(t_date, wdo)
 {
   if(wdo)
@@ -251,10 +262,12 @@ function get_next_working_day(t_date, wdo)
   return(t_date);
 }
 
+// Add another day column to the grid:
 function add_more_date_cols(json, current_date)
 {
   let sfx = "";
 
+  // Render blocks differently if the day is on a weekend or public holiday:
   if(current_date.getDay() === 0 || current_date.getDay() === 6 || is_public_holiday(current_date))
   {
     sfx = "_weekend";
@@ -262,6 +275,7 @@ function add_more_date_cols(json, current_date)
 
   const now = new Date();
 
+  // Render blocks differently if today's date:
   if(current_date.getDate() === now.getDate()
      && current_date.getMonth() === now.getMonth()
      && current_date.getFullYear() === now.getFullYear())
@@ -271,6 +285,7 @@ function add_more_date_cols(json, current_date)
 
   let t_col = [{ text: format_date(current_date), class: "gom_text gom_dates" + sfx }];
 
+  // Determine if a block for this day and task should be allocated or free:
   for(let i = 0; i < json.tasks.length; i ++)
   {
     let add_block = false;
@@ -304,6 +319,7 @@ function add_more_date_cols(json, current_date)
   json.grid.push(t_col);
 }
 
+// Change start or end dates if a task is dependent on other tasks:
 function update_dependencies(json)
 {
   let starts = {};
@@ -388,6 +404,7 @@ function update_dependencies(json)
   return(alterations);
 }
 
+// Set up useful dates within a task:
 function convert_dates(json)
 {
   for(let i = 0; i < json.tasks.length; i ++)
@@ -403,6 +420,7 @@ function convert_dates(json)
   }
 }
 
+// Re-render the grid if the weekly summary option is selected:
 function prepare_weekly_grid(json)
 {
   json.weekly_grid = [JSON.parse(JSON.stringify(json.grid[0]))];
@@ -435,6 +453,7 @@ function prepare_weekly_grid(json)
   json.grid = json.weekly_grid;
 }
 
+// Convert Ganttish into JSON:
 function generate_json(file_contents, is_weekly_str)
 {
   let is_weekly = false;
@@ -594,6 +613,8 @@ function generate_json(file_contents, is_weekly_str)
   return(output_json);
 }
 
+// Used by browser events (eg. onClick()) to re-render a Gantt chart
+// given a Ganttish definition:
 function render(ta, elem, is_weekly)
 {
   const defn = document.getElementById(ta).value;
